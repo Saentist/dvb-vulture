@@ -1,0 +1,26 @@
+To start the program, enter @command{dvbv-nr}. 
+The client will not start if the config file is missing.
+
+There are also some options:
+
+@enumerate
+
+@item @option{-h} or @option{--help} show help message. Do not start the client.
+@item @option{-cfg configfile} explicitly specify a config file. Handy for multi server setups. 
+Defaults to @samp{~/.dvbvulture/nr.conf}. For the windows port this should also be in the format 
+@samp{~/.dvbvulture/asdf.conf}. It gets mangled by the program, and ends up in the registry in 
+@samp{HKEY_CURRENT_USER/Software/dvbvulture/asdf.conf}.
+@item @option{-d module=verbosity} activate debug output for module with verbosity. may be specified multiple times for different modules.
+ verbosity is a value in the range 0-255. If omitted, 255 is assumed. module may be 'all' for all modules.
+
+Program modules:
+
+@include dbg_main.txi
+
+Common modules:
+
+@include dbg_common.txi
+
+
+@end enumerate
+

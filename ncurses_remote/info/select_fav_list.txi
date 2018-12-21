@@ -1,0 +1,5 @@
+This item selects a favorites list for subsequent use.
+
+Before it is possible to view any favorites it is necessary 
+to select a favorites list. Before a favorites list can 
+be selected, A favorites list has to be created @xref{Add Fav List}.

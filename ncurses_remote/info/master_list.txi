@@ -1,0 +1,43 @@
+The Master List represents the servers' services index. 
+It has several levels. The top level represents the 
+available satellite positions. They are sequentially 
+numbered starting at zero. Most setups will just have a
+single zero here. Pressing enter opens the transponder 
+menu. It displays the services found on the transponders.
+It starts out at the first transponder in the list (highest frequency).
+@key{Left} and @key{Right} keys change transponders.
+
+Several Operations are possible:
+
+@subsubheading Tuning
+Is done using the @key{Return} key. Client has to be @dfn{active},
+if actual tuning is required. This is not the case if another 
+@dfn{active} client is already streaming from the same multiplex.
+If successful, the selected service will be streamed.
+
+@subsubheading Recording
+Is done using the @key{r} key. Stopped using the 
+@key{c} key. Clients need not be active. However a
+service must have been selected by the client before.
+
+@subsubheading Scanning 
+Is done using the @key{s} key. Will try to fetch service
+information for the multiplex. Client has to be @dfn{active}.
+There is no client notification by the server, so to actually 
+see the result, the menu for the multiplex has to be reentered.
+
+@subsubheading Favorites
+A service may be added to the currently chosen favorite list
+by pressing @key{a}.
+Favorite lists may contain arbitrary services from various positions
+or multiplexes.
+
+@subsubheading Epg
+The EPG may be viewed using @key{e}.
+Cursor keys navigate, Enter displays description.
+@xref{Epg}.
+
+@subsubheading Videotext
+The videotext browser may be opened using @key{t}.
+@xref{VT(buggy)}.
+

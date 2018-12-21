@@ -1,0 +1,2 @@
+Cancels the @dfn{active} status, so other non-@dfn{super} clients
+may go @dfn{active}.

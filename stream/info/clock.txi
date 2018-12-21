@@ -1,0 +1,17 @@
+@node System Clock
+@section System Clock
+The server may set the system clock using settimeofday().
+For this to work the @samp{adjust_interval}, @samp{t_freq_kHz}, @samp{t_pos} and @samp{t_pol}
+entries inside the config file's @samp{[OFFLINE]} section have to be present.
+The t_ entries have to correspond to a known transponder/multiplex.
+The adjust_interval specifies a minimum delay between adjustments,
+which applies when no clients are active and no other data collection is done.
+This multiplex/transponder will be tuned and scanned for a TDT (Time and date table).
+If successful, the system clock will be set to the retrieved GMT time.
+@emph{This may not be desirable if the hardware clock runs on local time.}
+@*
+After setting the time, VT/EPG acquisition may run if @samp{acq_duration_s} was 
+specified in the config file's @samp{[OFFLINE]} section and it is not zero.
+The server will iterate over all multiplexes on all positions tuning for @samp{acq_duration_s} 
+seconds collecting all VT and EPG data it gets.
+When done it will wait for @samp{idle_duration_hr} hours before restarting from the beginning.

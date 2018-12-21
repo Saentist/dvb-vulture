@@ -1,0 +1,456 @@
+//add pnr database level to vtdb, so we don't have to rely on (possibly gone) PMTs
+
+//implement LRURemove
+
+//improve fp_free to shrink properly
+
+//implement vtdb_purge_pnr which deletes whole service completely, so we can throw out service when tuning.
+
+//implement aging to remove vt services which are not broadcast anymore. how(?) (!) add timestamps when swapping out magazine. 
+//every hour check if they are older than a week and delete service if necessary.
+//scrapped it, takes too long
+
+//niceness management for background threads (hope this works as expected)
+
+//upgrade debug code to handle more than 32 modules. Better allocate dynamically.
+
+//implement SIT compiler
+
+//implement SIT injector
+
+//implement ts-fork to demux ts into several programmes (now called Selector and integrated with dvb module)
+
+//implement ts-recorder
+
+//implement super... functionality
+
+//implement maintenance thread to handle recording schedule
+
+//implement session announcement (SAP/SDP)
+
+//correct ncurses app to use bcd vt subnumbers
+
+//possibly find a better way of handling vt-pnr association as the current way may cause us to collect redundant data(same pids,different pnr). Uses now a seperate tree to store pnr-pid associations.
+
+review vtdb subpage handling(optional)
+
+update to current DVB kernel interface
+
+support additional delivery methods(S2 should work but untested)
+
+//switch configuration options
+
+//purge databases on switch configuration
+
+//we may need more mutexes(pgmdb) as pgmdb_get_pmt waits for pmt with mutex unlocked, which opens a window for race condition
+
+//sane access functions, more encapsulation(dvb_s)
+
+//client call to get frontend signal strength. done
+
+//client call for frequency correction(finetune). done
+
+//client call to finetune tp freq. done
+
+//client call to finetune current lof only. use switch conf
+
+/*
+there needs to be some kind of sync between pgmdb and net_writer for pgmdbListStreams to work in initial tuning situation
+We'll do this by exposing a waitTuned function wich waits for tuning event with specified params to arrive. Of course, 
+this may not always succeed as there may be another tuning event waiting which gets processed as well, but I wouldn't want to expose the 
+pgmdb's mutex as well. The best alternative would be to integrate the wait into the pgmdb ListStreams function itself.
+*/
+
+//check for epg events with 0 duration and ignore them
+/*
+create unsynchronized accessors for the packet selector and expose locking, so we can insert/remove all pending packets without having to lock/unlock mutex multiple times.
+Hopefully this will allow us to avoid packet loss.
+*/
+
+//review sec_ex to return sections at earliest possibility (interpret section length?) Not possible. not all sections have section length(TDT)
+
+//cancelled (because it's nonsense):
+//Generate rtp timestamps out of PTS or PCR so the players won't skip(would this really help??)
+
+//connectionInit() and connectionClear() to stop streaming and recording on connection close
+
+//proper cleanup in recorder.c
+
+//disallow double tuning of same pgm by several connections
+
+//integrate recording schedule with epg menu (ncurses_remote)
+
+//cfg option to correct server's system clock every... day? TDT parsing... adjtime/adjtimex?
+
+//EPG content descriptor interpretation (ncurses_remote). yay
+
+//reminders to automatically tune pgms
+
+optional reimplementation using CDK/libstfl0/cwidget/libnewt
+
+X GUI+PLAYER set top box style
+
+//rec_sched call should stop running recordings if necessary
+
+//additional event to acquire all vt pids at once
+
+//close dmx before tuning, possibly remove all selector pids
+
+//listen for PDC before recording (if possible)
+
+//inside dvbTune lock tasks dependent on pgmdb until pgmdb is tuned. Else tuned events may accumulate and tasks go out of sync. Remove pgmdb_wait_tuned
+
+//use different allocator for selector events, else we may loop indefinitely
+
+//deadlock in dvbTune? Possibly the selector and task mutexes inside dvb_restart and dvb_proc_buf functions
+
+//problem in pgmdb storing sections
+
+//disallow user updates of active schedule entries
+
+//listen on a pipe to allow disabling/enabling debug output dynamically (optional) cancelled
+
+make recording filenames adhere to filesystem limits... max number of characters... charset...
+Partially done: sanitizes filenames to POSIX portable filename charset but doesn't check for length
+
+review file creation attributes, permissions... etc
+
+//Adjust vt cache size dyn to allow efficient multiple vt acquisition. Does this work with LRU? Yes, it does... well... hmmm.. perhaps...
+
+//RST_WD_SA/RST_WD to allow for periodic weekday events with/without Saturday. Uses flags for weekdays now.
+
+//on loading rec schedule make sure we update missed events
+
+NOT POSSIBLE:
+make repeating events timezone safe. Would involve storing timezone data for each event.
+implement multiple timezone conversion, perhaps using tzfile. At least recording schedules require this for generating the periodic events across DST changes. libc is definitely not good for this. Probably store TOT for each Transponder/Ts and use that info for generating those dates and times. NOT POSSIBLE as there is no indication which local time a specific service uses. Also, there may be several time zone offsets in a single TOT. We could try to interpret country availability descriptor. May be multiple countries there aswell...
+
+//don't keep selector locked for too long. Disk accesses etc...
+
+//vtdb module needs speedup. it generates packet drops. May be the extractor, too. seems better now.
+
+//IPV6 Readyness. done
+
+//use EIT tables for video recording as pdc/vps is rarely available
+
+introduce adaptive EIT mode for recording events other than RST_ONCE. don't look for a specific event id, but just for the first change in running status
+
+//write data_defrobber to extract elements of n bits from data stream of m bit elements with m!=n. use callbacks to be able to byte/bitswap if needed.
+
+//balance the binary tree
+
+pid hash for sw demux (Selector) or perhaps a bloom filter
+
+store all vt sub pages of a page in a single object. Level3.5 seems to need this. Remove subpage==zero if we get subpage!=zero remove subpage!=zero if we get subpage==zero.
+
+//Handle MOT MIP ..etc differently as they have strange subpage codes. subpages>=0x80 now stored incrementally
+
+review EIT recording, seems to fail on some transponders (OE1, ServusTv)
+
+//ncurses_remote more configurable, addresses ports, should react to window resizes.
+
+//reimplement schedule as linked list, and don't check entries every sec. Done.
+
+//function to retrieve n epg entries (at most). ok. limits by time or number.
+
+proper serialisation. network byte order, structure independent(alignment issues, word length etc. libtpl or manually?)
+
+reduce pointer arithmetics or at least introduce alignment for smart pointers etc...
+
+/*
+extend debug module to allow verbosities 0..255 per tag. starting with -d ts=23 will print all messages with 23 or less
+but.. -d ts=0 shall print no messages at all
+done dbgPri(v,message....) outputs message at verbosity v or higher(except zero)
+*/
+
+//possibly rework epgdb to be more section-based, less tests, faster. Mostly Ok. may need some debugging.
+
+//check for PCR pid. ok. will be added to streams/recording if not already done and if valid.
+
+//honor __BYTE_ORDER  __LITTLE_ENDIAN or __BIG_ENDIAN or similar macros. done (client works, don't know how to test server in emulator)
+
+option to drop privileges
+
+use splint (see that we do not violate c library namespace). Hmmm.. it seems to fail at the external headers.
+
+//find out what's the deal with failed crc on VAVA EPG sections. Guess it's VAVAs fault.
+
+//craft some info pages documenting programs and config files. ok.
+
+//find a way to knit version numbers into the documentation. doxygen/info. fine, quik&dirteeh
+
+//reduce table parsing in pgmdb. check version/bitmap/crc beforehand. ok
+
+//store epg for whole transponder in ram and swap when tuning. responsiveness is better that way.
+
+//tune the persistent allocator. it is too slow. cannot be helped, I think. growth has been modified to reduce fragmentation.
+
+//changed gettimeofday/timedwait to a polling loop+sleep(1). greatly reduces load.
+
+//find the bug that crashes program on exit. I suspect a thread join/create race with off_tsk
+
+use explicit state manager to synchronize off_tsk/clients
+
+//provide HTML doc online as people may be too lazy to read info
+
+//--help and -h options... find a way to knit invocation text into docs 
+//and pgm so it can be maintained as single .txt file
+//DONE: help.h gets produced from info/invoking.txi
+
+use getopt
+
+(perhaps) fix the client threads to timeout if comm stalls
+(perhaps) use Gray Watsons Diskheap instead of fp_mm... redis might also work..
+(perhaps) use glib for lists/strings etc..
+
+//strange errors are showing up on ORF2E... not sure what to make of it... 
+//messes up VT database, make it more picky. seems gone now after changing allocation logic.
+
+caching file access(like FILE*, but faster)(or change fp_mm to sthg more localized)
+
+low latency malloc (+mlock) to selectively speed things up.
+
+generate default config files if none found. interactivity?
+
+(perhaps) find a way to knit argv[0] into pidfile name. Have to 
+remove leading path components.
+
+Have the source package generate two binary packages for (dvbvulture,dvbvulture-doc), as the documentation uses FDL and binaries use GPL licensing
+
+do I need an installdocs makefile target?
+
+supposedly theres a url scheme around for finding the next event of a series..
+crid://whatever...
+
+getting a mystery transponder at freq 0. Where's it from?
+-d nis gives following
+
+Aug 23 19:00:07 tivi dvbv-stream: File nis.c, Line 254: NIS: nid: 1, ver: 5, cur/nxt: 1, secnr: 0, lastnr: 0 
+Aug 23 19:00:07 tivi dvbv-stream: File nis.c, Line 197: ES info ignoring descriptor: 65 
+Aug 23 19:00:07 tivi dvbv-stream: File nis.c, Line 147: Satellite System:   Freq: 0 kHz Pos: 0.0W Pol: H Msys: DVB-S Mtype: QPSK Srate: 5000kS FEC: 1/2 conv. code rate  
+Aug 23 19:00:07 tivi dvbv-stream: File nis.c, Line 197: ES info ignoring descriptor: 65 
+Aug 23 19:00:07 tivi dvbv-stream: File nis.c, Line 147: Satellite System:   Freq: 11067500 kHz Pos: 19.2E Pol: V Msys: DVB-S Mtype: QPSK Srate: 22000kS FEC: 5/6 conv. code rate  
+Aug 23 19:00:07 tivi dvbv-stream: File nis.c, Line 310: CRC: 0x4488847A 
+
+found on  11,06750 V (ANDALUCIA TV ...)
+
+
+unify menu_strings and move it to common.
+
+Drop x_remote. Modify ncurses_remote to be able to cope with simple graphics (X/framebuffer?).
+
+make E_PNR_ADD/RMV sync with pnr changes.. currently it is not.. but some modules need it
+pnr adds in net writer still need to be triggered by events, so they are in the right sequence with tuning..
+
+doxygen seems to need a space between '*' and comments, otherwise 
+they(*) show up in output ...
+
+DIT/SIT sync with pnr changes...
+
+move common makefile parts to distinct file and include...
+
+etr_211e02p.pdf has some additional requirements for DIT and SIT
+also documents pid change functionality...
+
+may need to wait a bit on LNB voltage/tone to set up... 
+
+item list should be allocator of it's own(using mmap etc.. instead of malloc)
+
+what kinds of data broadcasting can be implemented easily? 
+what are available on astra 19.2E? 
+how to find out?
+
+standards:
+tr 101 202 (data transport)
+EN 301 192 yes, have it
+iso/iec13818-6 that, too
+
+ts 102 809
+hbbTV AIT etc... (differs from MHEG5)
+
+dsm-cc specification(do I have it, can I get it?)
+data_broadcast_id descriptor(in PMT) is set to 6 for services with datacarousel 7 for obj carousel?
+data_broadcast_desc in SDT,EIT id=6, comp_tag=pid, data_carousel_info structure?
+
+
+returned EPG events should be sorted by time and unique..
+
+
+some descriptors seen in PMT:
+(iso...)
+0x2    video_stream_desc
+0x3    audio stream desc
+0x9    CA desc
+0xa    ISO_639_language_desc
+
+(EN 300 496)
+0x45   VBI_data_desc
+0x56   teletext_descr
+0x59   subtitling_descr
+0x5f   private_data_specifier_descr
+0x6a   AC-3 descriptor
+0x7f   extension descriptor..?(might be content protection or icon in here..)
+0xc1   user defined..?
+0xc2
+0xc3
+0xc6
+0xee
+
+keys to set freq offsets directly(in ncurses_remote) tuning just takes too long for incremental changes...
+
+multithek(internet) has no carousel descr, but app sig descr..
+(is it sufficient?)
+need at least component tag, I think..
+
+what is:
+data_broadcast_id=0x123
+private?
+
+
+leaks:
+
+1396050648: 1422694:  total-size  count  source
+1396050648: 1422694:       38200    191  item_list.c:79    demuxer? from hbb, I think
+1396050648: 1422694:        2049      1  lin/rcfile2.c:119  
+1396050648: 1422694:        1904     14  ra=0xb77b3bff
+1396050648: 1422694:        1064     38  btre.c:52    also, hbb
+1396050648: 1422694:         592      4  mheg.c:1225  yeah..
+1396050648: 1422694:         356      1  debug.c:70   not fixable
+1396050648: 1422694:         200      1  ra=0xb7569533
+1396050648: 1422694:          89      1  debug.c:69   not fixable
+1396050648: 1422694:          25      2  ra=0xb75c9fd4
+1396050648: 1422694:          16      1  ra=0xb7609aa4
+1396050648: 1422694:          12      1  ra=0xb75caf6b
+1396050648: 1422694:          10      1  ra=0xb75b1408
+1396050648: 1422694:           8      4  ra=0x8067f7b
+1396050648: 1422694:           8      4  ra=0x8067f6f
+1396050648: 1422694:           4      1  ra=0xb75696bd
+1396050648: 1422694:       44537    265  Total of 15
+1396050648: 1422694: ending time = 1396050648, elapsed since start = 6:25:50
+
+without MHEG (and w rcfile fixed)
+1396058682: 216763:  total-size  count  source
+1396058682: 216763:        1088      8  ra=0xb77a8bff
+1396058682: 216763:         356      1  debug.c:71
+1396058682: 216763:         200      1  ra=0xb755e533
+1396058682: 216763:         112      1  main.c:354
+1396058682: 216763:          89      1  debug.c:70
+1396058682: 216763:          40     20  ra=0x8067f0f
+1396058682: 216763:          40     20  ra=0x8067f1b
+1396058682: 216763:          25      2  ra=0xb75befd4
+1396058682: 216763:          16      1  ra=0xb75feaa4
+1396058682: 216763:          12      1  ra=0xb75bff6b
+1396058682: 216763:          10      1  ra=0xb75a6408
+1396058682: 216763:           4      1  ra=0xb755e6bd
+1396058682: 216763:        1992     58  Total of 12
+1396058682: 216763: ending time = 1396058682, elapsed since start = 0:10:40
+
+have to do an automatic build test before uploading...
+
+generate histograms for vtdb content, to find out what's filling it up...
+might have to dump all...
+breaking in morecore shows it grows in put_cache_sec...
+
+how to remove epg pgms... when pgms disappear from transponder...
+how to find out? repetition rates? flags? when tuning to a new
+tp or going idle and a certain time has expired scanning tables
+and no table was seen for a pgm...
+
+same for vt.. if I evah get that memleak fixed.
+
+getting a SIGSEGV in sec_ex_process_buf ..dvb thread.. from svt_packet_put.... ..._release is NULL.. seems to have been cleared already 
+svt_release..
+remove_tracker
+rmv_func/svtOutRmv
+
+selector and dvb task seem locked...
+but not adapter->mx?
+
+ending up with rather large vsize (~180Mbytes) despite dmalloc telling me it's just been using 30 Mbytes...
+must be triggering some worst-case fragmentation thingy... not quite sure how..
+
+optimizations?
+sysprof shows hi self.. load at:
+get_page_from_freelist(perhaps an allocator related thing.. it fragments)
+selectorFeedUnsafe
+the calloc() and free() in vtdb_put(I should do this with a single larger buffer)
+sec_crc32 in epgdb_put_eis
+memset in put_cache_sec
+
+how much space do the rolling headers take up?
+can I ignore them?
+
+if there's just a header... nothing else...
+
+Unicable stuff... (Technirouter 5)
+18 volt during commands
+fixed intermediate frequency
+set frequency...
+ch no...
+
+perhaps use external programs/script to setup diseqC
+
+needs access to frontend fd. can I inherit? not sure if opened shared...
+yes, they're inherited...
+needs to return the if to tune to...
+has to get the tuning parameters, current retry cycle.
+Has to be able to return an error...
+might want aux params passed vebatim..
+
+set_diseqc <extra parms> -fd <fdno> -pos <pos> -freq <freq> -pol <pol> -try <current_try>
+
+outputs to stdout
+Frequency: <freq_in_decimal>
+or
+Error: <errmsg>
+or
+Warning: <wmsg>
+(the last one to be used for retryable faults)
+
+perhaps use an ifreq of 0 for power saving stuff
+
+perhaps something like that already exists?
+writing from scratch would likely result in sthg broken..
+
+There's an order violation in the transponder list...
+ 12,64000 V  12,63000 V 12,63325 H  12,61050 V
+                     <-->
+gotta check the comparison funcs and exclusion range code...
+freq_tolerance at 1000 (Default) so they end up the same... 
+and differ by pol. only... that one needs a proper twc, tho..
+This will cause more trouble, if the tolerance is changed....
+
+try the address sanitizer...
+"-fsanitize=address,undefined" compiler option...
+
+Try to figure out if the frequent tuning errors are 
+due to unhandled phase ambiguity. 
+May be able to handle...
+what's the probabilities ?
+for 
+00 QPSK   1/4
+01 16-QAM 1/4 ?
+10 64-QAM 1/4 ?
+8PSK     1/8
+
+is it reduced by FEC?
+
+I can't seem to get VT pages on a newly discovered service...
+needs tuning to different Tp before it works...
+
+got this logfile snippet:
+Sep 15 08:43:05 tivi user.err dvbv-stream: File dvb.c, Line 817: FE_READ_UNCORRECTED_BLOCKS: Function not implemented
+Sep 15 08:43:05 tivi user.err dvbv-stream: File dvb.c, Line 817: FE_READ_UNCORRECTED_BLOCKS: Function not implemented
+Sep 15 08:43:05 tivi user.err dvbv-stream: File dvb.c, Line 817: FE_READ_UNCORRECTED_BLOCKS: Function not implemented
+Sep 15 08:43:06 tivi user.err dvbv-stream: File main.c, Line 195: Connection read() returned: Function not implemented. Ending connection.
+Sep 15 08:43:06 tivi user.err dvbv-stream: File main.c, Line 312: connection ended
+Sep 15 08:43:06 tivi user.err dvbv-stream: File main.c, Line 314: connection cleared
+Sep 15 08:43:30 tivi user.err dvbv-stream: File main.c, Line 537: accept: Interrupted system call
+Sep 15 08:43:31 tivi user.err dvbv-stream: File rec_tsk.c, Line 222: recTaskClear
+Sep 15 08:43:32 tivi user.err dvbv-stream: File rcptr.c, Line 137: counter zero or rcptr bfa5a782 id mismatch, want: a32f801b, got: 905cb748
+
+line 4 seems a leftover from the read blocks earlier.. fixable..
+the last one is a lot more worrying.
+happened when stopping the server.. 
+could not reproduce...
+

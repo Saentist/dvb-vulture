@@ -1,0 +1,2 @@
+The reminder list may be edited using this menu. 
+For RST_DAY type Reminders, individual Weekdays have to be selected.

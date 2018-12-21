@@ -1,0 +1,233 @@
+@node Configuration
+@chapter Configuration
+
+@subheading All options
+An example configuration file with all recognized sections and options.
+The options all have their default values.
+
+@example
+
+#section configuring the frontend
+[DVB]
+#adapter index, default:0
+adapter=0
+#frontend index, default:0
+frontend=0
+#demux index, default:0
+demux=0
+#dvr index, default:0
+dvr=0
+#number of seconds to wait for a LOCK. minimum:1
+tune_wait_s=2
+#max number of buffers in the demuxer. 
+#minimum: 8192 (buffers of size 188)
+num_buffers=8192
+#size of frontend ringbuffer in bytes. minimum: 96256 (bytes).
+#smaller values are set to minimum
+dmx_bufsz_bytes=1540096
+#switch configuration file. default:/var/lib/dvbvulture/swtch.db
+database=/var/lib/dvbvulture/swtch.db
+#niceness of the DVB thread. gets added to the process' niceness.
+#defaults to 0. Must be a value between -20 and 19 inclusive
+niceness=0
+
+#section configuring the Epg module
+[EPG]
+#epg datafile default:/var/lib/dvbvulture/epg.db
+database=/var/lib/dvbvulture/epg.db
+#niceness of the EPG thread. gets added to the process' niceness.
+#defaults to 0. Must be a value between -20 and 19 inclusive
+niceness=0
+#stream buffer for the epg file. Negative values leave default, 
+#0 disables buffer, 
+#positive values will allocate buffer of specified size
+setvbuf_bytes=-1
+#fragment size for persistent allocator.
+#When needed, grows the file by this amount
+#at least and shrinks by at least twice this
+#amount to reduce file fragmentation.
+#the default 0 leaves allocators' default setting.
+frag_sz_mb=0
+
+#section controlling the server
+[SERVER]
+#set to 0 to remove eit tables from broadcast stream, 1 to send them..
+stream_eit=0
+#port to listen on
+port=2241
+#limits the number of clients
+backlog=20
+#address for super clients
+super_addr=192.168.0.2
+#how long we wait for connections
+#to terminate when ending the server
+abort_timeout_us=70000
+#how often we wait for abort_timeout_us
+abort_poll_count=10
+#broadcast address for rtp stream
+bcast_addr=224.0.1.2
+#broadcast port
+bcast_port=5004
+#how many hops it will travel
+#also applies to SAP packets. ipv4 only.
+bcast_ttl=1
+#whether it passes the loopback interface.
+loop=0
+#niceness of the server threads. gets added to the process' niceness.
+#defaults to 0. Must be a value between -20 and 19 inclusive
+#increase niceness if stream skips on client ops (EPG,VT)
+niceness=0
+#address family. 4 or 6. 
+#All addresses in this section have to be given in the matching format
+af=4
+
+#options controlling offline task
+[OFFLINE]
+#clock adjust interval, 0 disables.
+#sets to GMT!!
+#do not use if hw clock runs on local time.
+adjust_interval_hr=0
+#per multiplex data acquisition duration, 0 disables.
+acq_duration_s=120
+#idle duration after acquisition
+idle_duration_hr=24
+#multiplex parameters for clock adjustment. 
+#Needs to match known transponder.
+t_pos=0
+t_freq_khz=0
+t_pol=H
+
+#options controlling the service listing module
+[PGM]
+#How long to wait for ts packets. 
+#Higher values may reduce task polling overhead.
+#Too large values cause acquisition timeouts.
+poll_timeout_ms=1000
+#Timeouts for acquiring various tables
+pat_timeout_s=5
+pms_timeout_s=5
+#multiplexes closer together are assumed to be identical.
+freq_tol_kHz=1000
+#file for storing data
+database=/var/lib/dvbvulture/pgm.db
+
+#recorder configuration
+[REC]
+#destination directory
+path=/var/lib/dvbvulture/rec
+#format filename according to template:
+#%n Which expands to the service name.
+#%e Which expands to the event name:
+#  'quick' for manual recordings
+#  Epg event name for recordings scheduled using epg
+#  NULL for manually scheduled ones
+#%p Expands to the service provider name.
+#%t A Unix timestamp representing the current time.
+format=%n-%t
+
+#recording schedule
+[SCH]
+#filename
+filename=/var/lib/dvbvulture/sch.db
+
+#options controlling announcements
+[SAP]
+#local address. 
+#Will appear in the SAP's originating source field.
+my_addr=192.168.0.3
+#user name used in description
+username=user
+#broadcast address for SAP
+#is the destination for SAP packets.
+sap_addr=224.2.127.254
+sap_port=9875
+#address family. 4 or 6
+#All addresses in this section have to be given in the matching format
+af=4
+
+#options controlling videotext
+[VT]
+#filename
+database=/var/lib/dvbvulture/vt.db
+#swap out if number of magazines exceeds this value. 
+#May be increased internally.
+mag_limit=8
+#additional niceness of the thread. -20 to 19 inclusive
+niceness=0
+#stream buffer for the vt file. 
+#Negative values leave default, 
+#0 disables buffer, 
+#positive values will allocate buffer of specified size
+setvbuf_bytes=-1
+#fragment size for persistent allocator.
+#small values cause fragmentation. 
+#the default 0 leaves allocators' default setting.
+frag_sz_mb=0
+
+@end example
+
+@subheading Real-Life examples for two servers
+@subsubheading adapter0, dvb-s:
+
+@example
+[DVB]
+adapter=0
+database=/var/lib/sa_test/switch0.db
+tune_wait_s=3
+
+[EPG]
+database=/var/lib/sa_test/epg0.db
+
+[PGM]
+database=/var/lib/sa_test/pgm0.db
+#PSI information is often inaccurate
+#avoid duplicate entries
+freq_tol_kHz=1000
+
+[VT]
+database=/var/lib/sa_test/vt0.db
+
+[SCH]
+filename=/var/lib/sa_test/sch0.db
+
+[OFFLINE]
+adjust_interval_hr=12
+acq_duration_s=30
+idle_duration_hr=24
+t_pos=0
+t_freq_khz=12551500
+t_pol=V
+
+[SERVER]
+port=2241
+loop=1
+bcast_port=5004
+
+@end example
+
+@subsubheading adapter1, dvb-t:
+
+@example
+[DVB]
+adapter=1
+database=/var/lib/sa_test/switch1.db
+num_buffers=8192
+
+[EPG]
+database=/var/lib/sa_test/epg1.db
+
+[PGM]
+database=/var/lib/sa_test/pgm1.db
+
+[VT]
+database=/var/lib/sa_test/vt1.db
+
+[SCH]
+filename=/var/lib/sa_test/sch1.db
+
+[SERVER]
+port=2242
+loop=1
+bcast_port=5006
+
+@end example

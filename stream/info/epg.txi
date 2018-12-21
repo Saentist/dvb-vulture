@@ -1,0 +1,10 @@
+@node Epg
+@section Epg
+Each server has a thread active which listens for EPG schedule sections on tuned multiplexes. 
+They get persistently stored to disk and connected clients may retrieve events as needed. 
+The default file for epg storage is: @samp{/var/lib/dvbvulture/epg.db}. It may be changed via the 
+configuration file. 
+Provided the server has enough time to shut down in an orderly fashion (TERM but no KILL), 
+previously collected Epg sections will be available after a restart.
+The server may be configured to periodically collect EPG and VT data on all multiplexes when 
+the last client has exited. 

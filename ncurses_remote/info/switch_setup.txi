@@ -1,0 +1,57 @@
+The switch setup shows a menu which permits the user 
+to:
+@itemize
+@item Add positions
+@item Delete positions
+@item Edit positions
+@item Select from a list of preset configurations
+@item Store the setup
+@item Cancel the operation
+@end itemize
+
+The client has to be @dfn{super} and @dfn{active}
+to be able to store positions.
+
+The preset menu shows a list of common configurations
+to choose from.
+
+The position edit menu allows the user to specify an 
+initial tuning file(ITF) and to edit the frequency bands(Bands)
+for that position. For every position there @emph{must} be an 
+initial tuning file specified. There are no sane defaults for those.
+The initial tuning file(s) must be filename(s) accessible on the 
+@emph{server}. 
+In Debian, tuning files typically come with the dvb-apps or dtv-scan-tables package and
+reside in @samp{/usr/share/dvb/}. Warning: The parser is cheap and will fail 
+on weird linebreaks and other oddities.
+
+Using the frequency bands menu it is possible to add, delete and edit frequency bands.
+The specified bands must match the Antenna/LNB/DiSEqC configuration.
+
+Using the band edit menu it is possible to specify/alter a bands local oscillator frequency,
+its minimum and maximum frequencies and to add or remove possible polarizations.
+It is also possible to bring up a polarization editing menu.
+
+The polarization editor allows changing the polarization specifier, 
+adding and deleting LNB/DiSEqC commands and editing individual commands.
+
+The command editor allows precise specification of the necessary 
+Voltage/Tone/Burst/Delay/DiSEqC commands to set up the corresponding
+switch input. Has to be @emph{correctly} specified for every 
+polarization on every band on every position unless a preset was used.
+
+The data fields have varying significance for different command types:
+@itemize
+@item SC_TONE: SEC_TONE_ON=0, SEC_TONE_OFF=1
+@item SC_BURST: SEC_MINI_A=0, SEC_MINI_B=1
+@item SC_VOLTAGE: SEC_VOLTAGE_13=0, SEC_VOLTAGE_18=1, SEC_VOLTAGE_OFF=2
+@item SC_WCMD: the len field is the number of DiSEqC bytes to send. 
+  the data portion of the SwitchCmd is also relevant for DiSEqC commands.
+@item SC_WCMD_F: The DiSEqC Write Freq(0x58) command. The first two data[] bytes must be the DiSEqC framing and address bytes.
+@item SC_DELAY: data[0] represents a timeout in milliseconds to wait before continuing, with a maximum of 255ms.
+@end itemize
+
+All data values have to be entered as decimals.
+
+This is hardly tested for anything else besides the Universal LNB and DVB-T presets,
+so it may not actually work.

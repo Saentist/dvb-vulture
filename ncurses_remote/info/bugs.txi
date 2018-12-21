@@ -1,0 +1,5 @@
+@node Bugs
+@chapter Bugs
+The code is a mess.@*
+Some memory leaks (ncurses?).@*
+Possibly more...

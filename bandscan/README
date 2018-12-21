@@ -1,0 +1,37 @@
+This directory contains a program to do a bandscan 
+and output the ressults as a .csv file
+Works for universal LNB only.
+
+gnuplot:
+set key autotitle columnhead
+set datafile separator ","
+plot "band_9750000_V.csv" with steps
+
+All frequencies:
+plot "all.csv" using 1:2 with steps, "" using 1:3 with steps, "" using 1:4 with steps, "" using 1:5 with steps
+
+Vert polarisation:
+plot "all.csv" using 1:2 with steps, "" using 1:4 with steps
+
+Hrz polarisation:
+plot "all.csv" using 1:3 with steps, "" using 1:5 with steps
+
+settings for intermediate frequency bands:
+(universal LNB)
+
+ lo  | 10600000 | 9750000
+-----+----------+---------
+TONE |   _ON    |  _OFF
+
+pol  | H  | V 
+-----+----+---
+Volt | 18 | 13
+
+
+ 11953500 kHz xf
+-10600000 kHz lof
+  1353500 kHz if
+
+H pol
+->18V
+->Tone_ON

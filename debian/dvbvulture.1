@@ -1,0 +1,91 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH DVBVULTURE 1 "May 24, 2012"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+DVB Vulture \- DVB streaming software
+.SH SYNOPSIS
+.B dvbv-nr 
+.RI [ options ] 
+.br
+.B dvbv-xr 
+.RI [ options ] 
+.br
+.B dvbv-stream
+.RI [ options ] 
+.SH DESCRIPTION
+This manual page documents briefly the
+.B dvbv-nr,
+.B dvbv-xr
+and
+.B dvbv-stream
+commands.
+.PP
+.\" TeX users may be more comfortable with the \fB<whatever>\fP and
+.\" \fI<whatever>\fP escape sequences to invode bold face and italics,
+.\" respectively.
+\fBdvbv-nr\fP and \fBdvbv-xr\fP are the clients and
+\fBdvbv-stream\fP is the server
+.SH OPTIONS
+For a complete description, see the Info files.
+.SH dvbv-nr
+.TP
+.B \-h, \-\-help
+Show summary of options.
+.TP
+.B \-cfg <conffile>
+explicitly specify a config file. Defaults to 
+.IR "~/.dvbvulture/nr.conf"
+.TP
+.B \-d module=verbosity
+Selectively enable debug output.
+.SH dvbv-xr
+.TP
+.B \-cfg <conffile>
+explicitly specify a config file. Defaults to 
+.IR "~/.dvbvulture/nr.conf"
+.TP
+.B \-dbg module=verbosity
+Selectively enable debug output.
+.SH dvbv-stream
+.TP
+.B \-h, \-\-help
+Show summary of options.
+.TP
+.B \-nd
+Do not detach from Terminal. Server can be killed using C-c.
+.TP
+.B \-p <pidfile>
+Explicitly specify pidfile. Defaults to 
+.IR "/var/run/dvbv-stream.pid".
+.TP
+.B \-cfg <conffile>
+explicitly specify a config file. Defaults to 
+.IR "/etc/dvbvulture/sa.conf".
+.TP
+.B \-d module=verbosity
+Selectively enable debug output.
+.SH SEE ALSO
+The programs are documented fully by
+.IR "dvbv-nr" 
+and 
+.IR "dvbv-stream",
+available via the Info system.
+.SH AUTHOR
+dvbvulture was written by Me.
+.PP
+This manual page was written by Me <your.maintainer@address>,
+for the Debian project (and may be used by others).

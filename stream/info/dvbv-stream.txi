@@ -1,0 +1,117 @@
+\input texinfo @c -*-texinfo-*-
+@c %**start of header
+@setfilename dvbv-stream.info
+@settitle DVB Vulture Server
+@c %**end of header
+
+@copying
+This manual is for dvbv-stream version
+@include ../../VERSION
+,
+which is a dvb streaming server.
+
+Copyright @copyright{} 2011 Free Software Foundation Inc.
+@quotation
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with the Front-Cover Texts being ``A GNU Manual,''
+and with the Back-Cover Texts as in (a) below.  A copy of the
+license is included in the section entitled ``GNU Free Documentation
+License.''
+
+(a) The FSF's Back-Cover Text is: ``You have the freedom to
+copy and modify this GNU manual.  Buying copies from the FSF
+supports it in developing GNU and promoting software freedom.''
+@end quotation
+@end copying
+@titlepage
+@title DVB Vulture Server
+@author Johann Klammer
+
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+
+@end titlepage
+
+@contents
+
+@dircategory Viewers
+@direntry
+* DVBV Streamer: (dvbv-stream). A DVB streaming daemon
+@end direntry
+
+@ifnottex
+@node Top
+@top DVB Vulture Server
+This manual is for dvbv-stream, version
+@include ../../VERSION
+@end ifnottex
+
+@menu
+* Introduction::                    What this program does
+* Getting started::                 How to set it up
+* Functionality::                   More Detail
+* Invoking::                        Command line options supported by the program
+* Configuration::                   Config file syntax
+* Trouble::                         When things don't work the way they should
+* Bugs::                            And Deficiencies
+* GNU Free Documentation License::  Copying this manual
+@end menu
+
+@node Introduction
+@chapter Introduction
+This program can take control of your dvb-s or dvb-t 
+card and listen to requests by dvbv-nr clients. 
+It can:
+
+@enumerate
+@item Tune programs and broadcast them via rtp
+@item Store partial Transport Streams on disk
+@item Aggregate EPG and Videotext Data
+@item Announce stream via SAP, the Session Announcement Protocol
+@item Maintain a list of services
+@item Set the system clock
+@end enumerate
+
+@include starting.txi
+
+@node Functionality
+@chapter Functionality
+Some More detail
+@menu
+* Streaming::       And associated client operations
+* Recording::       Recording features
+* Epg::             Epg Handling
+* Announces::       SAP broadcasts
+* Services List::   How information is acquired
+* System Clock::    It may be modified
+* VT(buggy)::       Removal Planned
+@end menu
+
+@include streaming.txi
+@include recording.txi
+@include epg.txi
+@include sap.txi
+@include pgmdb.txi
+@include clock.txi
+@include vt.txi
+
+@node Invoking
+@chapter Invoking
+@include invoking.txi
+
+@include config.txi
+@include trouble.txi
+@include bugs.txi
+@node GNU Free Documentation License
+@appendix GNU Free Documentation License
+@include fdl-1.3.texi
+
+@documentdescription
+DVB Vulture Streamer. Acts as a streaming server capable of controlling DVB-S or DVB-T frontends.
+@end documentdescription
+@shorttitlepage DVB Vulture Streamer
+
+@bye

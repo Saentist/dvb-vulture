@@ -1,0 +1,16 @@
+@node Bugs
+@chapter Bugs
+Users in countries with Daylight Savings Time have to modify their 
+recording schedules on each transition as the program uses GMT 
+internally and is not DST aware. This cannot be fixed. @*
+Logging timestamps may end up as GMT(observed with busybox syslogger). @*
+Hardware Clock adjustment does not work as expected if the *hardware* clock runs on local time. @*
+The Vt acquisition is broken and consmes too much memory. @*
+The control interface is badly programmed. No authentication. @*
+The user is strongly discouraged from using the program without a firewall. @*
+DVB-S2 is untested. @*
+The *ahem* @emph{parser} for initial tuning files is cheap and chokes on weird 
+line-breaks. @*
+Recorder could deadlock @*
+
+...Possibly more.

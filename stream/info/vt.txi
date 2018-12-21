@@ -1,0 +1,8 @@
+@node VT(buggy)
+@section VT(buggy)
+The server maintains a thread that listens for videotext packets and stores them to disk 
+for later use. Clients may retrieve Vt packets independent of currently tuned services.
+This does not work very well as it is rather slow and the datafile gets rather bloated as
+packets do not get removed (ever). Additionally, Level 2.5 enhancement data causes problems 
+as it tends to get corrupted.
+The server may be configured to collect VT and EPG data when the last client has exited.

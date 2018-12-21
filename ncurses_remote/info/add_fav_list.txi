@@ -1,0 +1,3 @@
+The user is asked for a name for the list to create.
+If a list by that name does not yet exist, a new list is created.
+For deleting @xref{Del Fav List}.

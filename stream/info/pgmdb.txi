@@ -1,0 +1,13 @@
+@node Services List
+@section Services List
+The server maintains a thread which listens for service 
+information as long as the frontend is tuned. 
+Service information is stored inside a multi-level datastructure.
+The top level are the switch positions, which have to be configured by the user
+along with initial tuning file(s) to use. The initial tuning file specifies a 
+List of initial multiplexes/transponders to use for a position. 
+When a the frontend gets tuned, the server
+updates the services list in the background and may add 
+additional multiplexes/transponders to its master list. 
+Individual multiplexes/transponders get populated with 
+their service numbers/names. Clients may then choose from those. 

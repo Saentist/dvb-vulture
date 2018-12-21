@@ -1,0 +1,29 @@
+@node Streaming
+@section Streaming
+
+@subheading Startup
+Right after initialization the server opens a tcp port to listen for connections.
+The default port is @samp{2241}, but may be set via a configuration file.
+dvbv-nr clients may then connect to this port to take control.
+
+@subheading Modes
+There are two modes of operation a client may be in: Active and Inactive.
+Active clients may do things that change frontend status, such as tuning to
+a different multiplex. Inactive clients may retrieve data from the server, such as
+EPG, service lists, Vt pages. Inactive clients are not allowed to tune the frontend 
+but may pick services to add to the stream on the currently tuned multiplex.
+
+@subheading Classes
+There are also two classes of client connections:
+super and common.
+Common connections may go Active if no one is active. 
+Super connections may go active if no other super connection is active. 
+The latter operation may inactivate a common connection.
+No one may go active if a scheduled recording is active.
+The class is chosen based on client's address. Clients with ip address @samp{192.168.0.2}
+are by default super, others are common. The address may be changed via the configuration file.
+
+@subheading Stream
+The Stream is output as an rtp udp stream containing a dvb transport stream 
+with the selected services. The default broadcast address is @samp{224.0.1.2} port @samp{5004}. 
+The address may be changed via the configuration file. 

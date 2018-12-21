@@ -1,0 +1,7 @@
+@node VT(buggy)
+@chapter VT(buggy)
+The VT viewer can be entered from the favorite list or the master list.
+If there are several text services stored for the chosen service, a selection menu is shown.
+Pages may be chosen by entering a page number directly. @key{Left} and @key{Right}
+proceed to previous and next page numbers. @key{Up} and @key{Down} browse through subpages.
+It is common for the VT database to contain stale pages, as the server does not remove packets.

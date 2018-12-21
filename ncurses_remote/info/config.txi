@@ -1,0 +1,64 @@
+@node Configuration
+@chapter Configuration
+
+@subheading All options
+An example configuration file with all recognized sections and options.
+The options all have their default values.
+
+@example
+
+#section configuring network access
+[NET]
+#may be 4 or 6(for IPv6) on Linux, 4 on Windows
+af=4
+#server IP. may be an IPv6 address. 
+host=192.168.0.3
+#server port
+port=2241
+
+[FILES]
+#datafiles are prefixed with "~/.dvbvulture/" in Linux. 
+#The directory must exist.
+
+#in the windows port, there is no prefix, 
+#but the filenames may contain environment vars which will be expanded.
+fav_db=fav.db
+rem_db=rem.db
+
+[EPG]
+#how many days of data to fetch
+num_days=7
+#how many events to get. ignored if num_days is not zero.
+num_entries=0
+#EPG column width. values below 10 are set to 10
+col_w=20
+#minimum vertical space for EPG entries. values below 4 are set to 4
+vspc=4
+#Programme titles will be colored according to their first
+#content descriptor. 
+#Which colors to use may be specified
+#as a character string with the following formatting:
+#The string consists of at most 11 color pair specs separated
+#by commas ','.
+#each pair specifier requires a foreground and background color
+#separated by a colon ':'
+#Colors are represented by the letters:
+#'w','r','g','b','c','m','y' and 'k'
+#specifying white,red,green,blue,cyan,magenta,yellow and black 
+#respectively.
+#Pairs will be used in following order
+#Unspecified,Drama,News,Show,Sports,Kids,
+#Music,Arts,Social,Science,Leisure
+#from left to right.
+#if pairs are missing, (hopefully sane)default colors will be specified.
+colors=w:k,r:k,g:k,y:k,b:k,m:k,k:w,r:w,g:w,y:w,b:w,m:w
+
+#reminder
+[RMD]
+#How often to retry when 
+#tuning fails for reminder.
+#negative values: indefinite
+#default: 0
+retries=0
+
+@end example

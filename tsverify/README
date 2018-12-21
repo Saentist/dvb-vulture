@@ -1,0 +1,13 @@
+tsverify
+Transport Stream Verification program
+
+checks for sync bytes and continuity counter correctness
+and outputs locations on stdout.
+
+May optionally output packets with wrong cc and non sync bytes to dump file.
+
+May optionally output found sync correct ts packets to output file.
+(=It tries to throw away garbage between packets..)
+
+Can not reassemble faulty cc sequences.
+

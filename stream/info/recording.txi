@@ -1,0 +1,52 @@
+@node Recording
+@section Recording
+@subheading Variants
+There are two basic recording variants:
+User controlled and timer controlled.
+@*
+User controlled recordings may be started by any client as long as 
+the frontend is tuned and the client has chosen a service to stream 
+before. They will be stopped on client request or on tuning.
+@*
+Timer controlled recordings are started by the server in response to 
+a recording schedule entry. 
+@subheading Recording Schedule
+Recording schedule entries may only be added or modified by a connection 
+of class super. Also, timer controlled recordings may only be aborted by 
+super connections. For these operations the connection need not be active.
+Two minutes are recorded before the beginning and 
+past the end of the entry to account for schedule inaccuracies. 
+There is also an option to use EIT Tables to start recordings, but this seems to
+be unreliable and is strongly discouraged. Besides, it does not
+work for periodic recordings as the event id tends to change. Multiple, 
+overlapping recordings on the same Transponder/Multiplex will work independently. 
+If retuning is required(different transponder/multiplex), an active recording 
+may be truncated. It is not possible to go active and tune manually during a 
+scheduled recording session, but programs on the currently active 
+transponder/multiplex may be streamed (including the one(s) currently recording) 
+without ill effects.
+Users in countries with Daylight Savings Time have to modify their 
+recording schedules on each transition as the program uses GMT 
+internally and is not DST aware. 
+
+@subheading Output
+Recordings will be output by the server to the directory @samp{/var/lib/dvbvulture/rec}. 
+This may be changed via the configuration file. The filenames are auto-generated from templates 
+containing printf-esque format characters.
+The available characters are:
+
+@enumerate
+@item @samp{%n} Which expands to the service name.
+@item @samp{%e} Which expands to the event name.(may be NULL)
+@item @samp{%p} Expands to the service provider name.
+@item @samp{%t} A Unix timestamp representing the current time.
+@end enumerate
+@*
+The template defaults to: @samp{%n-%t}, but may be changed via the configuration file.
+After expanding the template the characters that are not inside the POSIX portable filename charset
+get replaced by @samp{_} characters. Afterwards a @samp{.ts} suffix is appended and a stat is attempted. 
+While the file exists a @samp{-} and a sequential number is inserted after the template and before the 
+@samp{.ts} suffix.
+Then the stat is retried.
+This is attempted at most 20 times, at which point the recording will fail, 
+as the file could not be generated. 

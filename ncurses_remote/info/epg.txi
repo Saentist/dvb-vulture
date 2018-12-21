@@ -1,0 +1,28 @@
+@node Epg
+@chapter Epg
+Actually there's two EPG viewers. 
+
+The simpler one may be entered from the master lists'
+bottom level by pressing @key{e}. @key{Left}/@key{Right} keys 
+navigate between services, @key{Up}/@key{Down}
+between events. 
+Pressing @key{Enter} will show the description (if there is one).
+@key{s} schedules event for recording, @key{m}
+memorizes a reminder.
+@key{Backspace} or @key{Esc} exits.
+
+The other, prettier and slower one may be entered from the 
+bottom level of the favorite List by pressing @key{e}. 
+It provides a grid view of the events. Exact starting time and
+duration are shown in the top left corner as the times 
+along the left edge are rather approximate.
+Navigation is done using the arrow keys.
+The description may be scrolled up/down using 
+@key{x}/@key{c}. @key{s} schedules event for recording, @key{m}
+memorizes a reminder.
+@key{Backspace} or @key{Esc} exits.
+
+Scheduling requires the client to be @dfn{super}.
+
+Colors, column width and event minimum vertical height may be changed
+using the config file.

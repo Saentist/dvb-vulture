@@ -1,0 +1,28 @@
+To start the server enter @command{dvbv-stream}. 
+To shut down the server in an orderly fashion, use SIGTERM (it may take a while). 
+Eg. @samp{kill `pidof dvbv-stream`} or @samp{kill `cat /var/run/dvbv-stream.pid`}
+
+There are also some options:
+
+@enumerate
+
+@item @option{-h} or @option{--help} show help message. Do not start the server.
+@item @option{-nd} do not detach from running terminal, run in the foreground. server can be closed using Ctrl-c.
+@item @option{-sbt} endless loop after doing a backtrace. For attaching debugger.
+@item @option{-cfg configfile} explicitly specify a config file. Handy for multi server setups. 
+Defaults to "/etc/dvbvulture/sa.conf"
+@item @option{-p pidfile} specify a pidfile to use. defaults to "/var/run/dvbv-stream.pid".
+@item @option{-d module=verbosity} activate debug output for module with verbosity. may be specified multiple times for different modules.
+ verbosity is a value in the range 0-255. If omitted, 255 is assumed. module may be 'all' for all modules.
+
+@end enumerate
+
+Program modules:
+
+@include dbg_main.txi
+
+Common modules:
+
+@include dbg_common.txi
+
+

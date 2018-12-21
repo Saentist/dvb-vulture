@@ -1,0 +1,93 @@
+generated_headers=help.h
+sources = $(wildcard *.c)
+include_dirs = -I ../include -I ../common/win/include -I ./win
+lib_dirs = -L ../common/win/lib -L ../common/win
+defines = -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -DDMALLOC_DISABLE -D_POSIX
+
+
+file_name = win/dvbv-nr.exe
+# if I use ? here it uses regular gcc despite absence of envvar...?
+CC = i686-w64-mingw32-gcc
+LD = i686-w64-mingw32-ld
+opt=-Os
+
+LIBRARIES = -lws2_32 -liconv -lpthread -lpdcurses -lsacommon -lmsvcr110
+
+#stack prot generated undef references...
+CFLAGS= -g $(opt) -fno-common -fstrict-aliasing -fno-stack-protector -Wall -Wextra -std=gnu99 $(gcov_opt) $(defines) $(include_dirs)
+
+LDFLAGS= $(gcov_opt) $(lib_dirs) -shared-libgcc
+
+#SUBDIRS = $(wildcard */)
+#all sub directories
+
+#.PHONY : subdirs $(SUBDIRS)
+
+.PHONY : all clean distclean main
+
+all : $(file_name)
+
+main : $(file_name)
+
+$(file_name) : $(sources:%.c=win/%.o)
+	$(CC) $(sources:%.c=win/%.o) $(LIBRARIES) $(LDFLAGS) -o $@
+
+#invocation message dependency. just update timestamp
+info/invoking.txi : info/dbg_main.txi info/dbg_common.txi
+	touch info/invoking.txi
+
+#rule for generating debug token list
+info/dbg_main.txi : main.c
+	( cd info;./dbg_main.sh;cd .. )
+
+#rule for generating common debug token list
+info/dbg_common.txi : ../common/debug.c
+	( cd info;./dbg_common.sh;cd .. )
+
+#specific rule for generating help.h
+help.h : info/invoking.txi
+	( cd info;./gen_help_h.sh;cd .. )
+
+
+win/%.o : %.c
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $< -o $@
+
+
+win/%.d : %.c makefile.w32
+	$(CC) -MM -MG $(include_dirs) $< > $@.$$$$; \
+sed 's,\($*\)\.o[ :]*,win/\1.o $@\: ,g; s,[^\\]$$,& makefile.w32,' < $@.$$$$ > $@; \
+rm -f $@.$$$$
+
+ifneq ($(MAKECMDGOALS), clean)
+ifneq ($(MAKECMDGOALS), distclean)
+
+include $(sources:%.c=win/%.d)
+
+endif
+endif
+
+
+distclean : clean
+	rm -f $(file_name)
+	rm -f info/*.pdf
+	rm -f info/*.info.gz
+	rm -f info/*.html
+	rm -f info/*.aux
+	rm -f info/*.cp
+	rm -f info/*.fn
+	rm -f info/*.ky
+	rm -f info/*.log
+	rm -f info/*.pg
+	rm -f info/*.toc
+	rm -f info/*.tp
+	rm -f info/*.bak
+	rm -f info/*.vr
+
+clean : 
+	rm -f $(sources:%.c=win/%.d)
+	rm -f $(sources:%.c=win/%.o)
+	rm -f $(generated_headers)
+	rm -f *~
+	rm -f *.bak
+	rm -fr doc/*
+

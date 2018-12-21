@@ -1,0 +1,97 @@
+dvbvulture (1.0.34) unstable; urgency=medium
+
+  * Fix borked memsets
+  * Minor Docs update
+
+ -- Johann Klammer <klammerj@a1.net>  Mon, 28 Apr 2014 19:28:56 +0200
+
+dvbvulture (1.0.33) unstable; urgency=medium
+
+  * Fixed a race condition/segfault
+  * minor menu and vt fixes
+
+ -- Johann Klammer <klammerj@a1.net>  Sun, 20 Apr 2014 21:20:56 +0200
+
+dvbvulture (1.0.32) unstable; urgency=medium
+
+  * Fixes a segfault..
+
+ -- Johann Klammer <klammerj@a1.net>  Tue, 08 Apr 2014 08:57:25 +0200
+
+dvbvulture (1.0.31) unstable; urgency=medium
+
+  * Fix recommends(so it actually builds)...
+
+ -- Johann Klammer <klammerj@a1.net>  Mon, 07 Apr 2014 08:33:49 +0200
+
+dvbvulture (1.0.30) unstable; urgency=medium
+
+  * Disabled Videotext component, coz it crashes the server.
+  * Proper charset conversion. (fresh and stinky, possibly broken)
+  * Config file autogeneration.
+  * Service tracking demuxer.
+  * Signal monitor/status feedback hacks.
+  * Loads of bugfixes.
+
+ -- Johann Klammer <klammerj@a1.net>  Mon, 07 Apr 2014 02:05:30 +0200
+
+dvbvulture (1.0.29) unstable; urgency=low
+
+  * Added x_remote: Like ncurses_remote, but a Xaw application.
+  * Added tsverify: Verify captured ts streams and output a lot of infos.
+  * IPV6 support: Can do IPV4 or IPV6, but not both.
+  * Bugfixes
+
+ -- Johann Klammer <klammerj@a1.net>  Tue, 06 Nov 2012 20:40:55 +0100
+
+dvbvulture (1.0.28) unstable; urgency=low
+
+  * Fixed a Bug in Rec schedule.
+
+ -- root <root@tivi>  Mon, 10 Sep 2012 07:48:49 +0200
+
+dvbvulture (1.0.27) unstable; urgency=low
+
+  * Parallel builds work now.
+  * Better Inter Process Comunication.
+  * Less compiler warnings.
+
+ -- root <root@tivi>  Thu, 30 Aug 2012 22:13:22 +0200
+
+dvbvulture (1.0.26) unstable; urgency=low
+
+  * Recording schedule bugfix
+
+ -- root <your.maintainer@address>  Sun, 17 Jun 2012 20:20:21 +0200
+
+dvbvulture (1.0.25) unstable; urgency=low
+
+  * Fixed a memleak
+  * Added missing build-dep for libdmalloc-dev for dmalloc.h header and install-info.
+  * Added dependency for info-browser
+
+ -- root <your.maintainer@address>  Tue, 12 Jun 2012 03:40:46 +0200
+
+dvbvulture (1.0.24) unstable; urgency=low
+
+  * Minor bug fixes, cleanup.
+
+ -- root <your.maintainer@address>  Mon, 04 Jun 2012 19:56:32 +0200
+
+dvbvulture (1.0.23) unstable; urgency=low
+
+  * Changed default install paths from /usr to usr/local.
+    Various changes to makefile.
+    Name of startup script changed to dvbvulture and moved to debian directory.
+    Default state dir changed from /var/lib/stb to /var/lib/dvbvulture
+    Default configuration dir changed from /etc/stb to /etc/dvbvulture
+    Default local configuration dir changed from ~/.stb to ~/.dvbvulture
+    Basic manpages for dvbvulture(pointing to real docs).
+
+ -- root <your.maintainer@address>  Mon, 28 May 2012 20:04:08 +0200
+
+dvbvulture (1.0.22) unstable; urgency=low
+
+  * Initial debianization
+
+ -- root <your.maintainer@address>  Thu, 24 May 2012 16:40:44 +0200

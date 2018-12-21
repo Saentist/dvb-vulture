@@ -1,0 +1,17 @@
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\dvbvulture]
+
+[HKEY_CURRENT_USER\Software\dvbvulture\nr.conf]
+
+[HKEY_CURRENT_USER\Software\dvbvulture\nr.conf\EPG]
+
+[HKEY_CURRENT_USER\Software\dvbvulture\nr.conf\FILES]
+"fav_db"="C:\\fav.db"
+"rem_db"="C:\\rem.db"
+
+[HKEY_CURRENT_USER\Software\dvbvulture\nr.conf\NET]
+"port"="2241"
+
+[HKEY_CURRENT_USER\Software\dvbvulture\nr.conf\RMD]
+

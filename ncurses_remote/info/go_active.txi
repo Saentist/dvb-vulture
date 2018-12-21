@@ -1,0 +1,7 @@
+Tries to go @dfn{active}.
+For most operations that change server side status it is necessary for the
+client to be @dfn{active}. For some privileged operations it is also necessary 
+for the client to connect from the @dfn{super} address. For editing recording schedule
+it is sufficient to be @dfn{super} only. @dfn{active} state may be revoked by a 
+@dfn{super} connection going @dfn{active} or a scheduled recording. The client is not explicitly 
+notified of this.

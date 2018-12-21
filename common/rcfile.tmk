@@ -1,0 +1,4 @@
+
+rcfile_tst : rcfile.c debug.o
+	$(CC) debug.o rcfile.c $(LIBRARIES) -DTEST -o rcfile_tst $(defines) $(include_dirs)
+

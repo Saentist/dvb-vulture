@@ -1,0 +1,102 @@
+\input texinfo @c -*-texinfo-*-
+@c %**start of header
+@setfilename dvbv-nr.info
+@settitle DVB Ncurses Remote
+@c %**end of header
+
+@copying
+This manual is for dvbv-nr version
+@include ../../VERSION
+,
+which is a DVB ncurses remote control client.
+
+Copyright @copyright{} 2011 Free Software Foundation Inc.
+@quotation
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with the Front-Cover Texts being ``A GNU Manual,''
+and with the Back-Cover Texts as in (a) below.  A copy of the
+license is included in the section entitled ``GNU Free Documentation
+License.''
+
+(a) The FSF's Back-Cover Text is: ``You have the freedom to
+copy and modify this GNU manual.  Buying copies from the FSF
+supports it in developing GNU and promoting software freedom.''
+@end quotation
+@end copying
+@titlepage
+@title DVB Ncurses Remote
+@author Johann Klammer
+
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+
+@end titlepage
+
+@contents
+
+@dircategory Viewers
+@direntry
+* DVBV Ncurses Remote: (dvbv-nr). A DVB remote control client.
+@end direntry
+
+@ifnottex
+@node Top
+@top DVB Ncurses Remote
+This manual is for dvbv-nr, version
+@include ../../VERSION
+@end ifnottex
+
+@menu
+* Introduction::                    What this program does
+* Getting started::                 How to set it up
+* The UI::                          Menu Structure
+* Epg::                             Electronic program guide
+* VT(buggy)::                       Videotext functionality
+* Invoking::                        Command line options supported by the program
+* Configuration::                   Config file syntax
+* Trouble::                         If things don't work the way they should
+* Bugs::                            And Deficiencies
+* GNU Free Documentation License::  Copying this manual
+@end menu
+
+@node Introduction
+@chapter Introduction
+This program can attach to a dvbv-stream server
+and control it. It can:
+
+@enumerate
+@item Show the stored list of services
+@item Tune programs to broadcast via rtp
+@item Record partial transport streams to disk.
+@item Schedule recordings.
+@item View stored EPG Data
+@item View stored VT data
+@item Generate and store reminders (locally).
+@item Generate and store Favorite lists (locally).
+@end enumerate
+
+@include starting.txi
+@include ui.txi
+@include epg.txi
+@include vt.txi
+
+@node Invoking
+@chapter Invoking
+@include invoking.txi
+
+@include config.txi
+@include trouble.txi
+@include bugs.txi
+@node GNU Free Documentation License
+@appendix GNU Free Documentation License
+@include fdl-1.3.texi
+
+@documentdescription
+DVB Vulture Remote. User interface for accessing the dvbv-stream DVB streaming server. 
+@end documentdescription
+@shorttitlepage DVB Vulture Streamer
+
+@bye

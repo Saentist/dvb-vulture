@@ -1,0 +1,9 @@
+@node Announces
+@section Announces
+If the frontend is tuned, the server will announce the currently running service(s) in 
+5 Minute intervals or when the stream composition changes.
+The originating address has to be correctly specified in the configuration file.
+It will default to @samp{192.168.0.3}.
+A username may be specified in the configuration file. It defaults to @samp{user}.
+A SAP broadcast address may be specified in the configuration file. It defaults to @samp{224.2.127.254}.
+A SAP broadcast port may be specified in the configuration file. It defaults to @samp{9875}.

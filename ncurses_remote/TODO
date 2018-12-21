@@ -1,0 +1,41 @@
+windows port..
+
+Try winedbg as gdb frontend
+
+got it running now.. (in wineconsole.. pdcurses seems not to work in xterm )backspace does not seem to work
+
+what next?
+watcom'ish W32 bild or Dos?
+
+try alternative win32 PDCurses..
+
+have to get pthreads dep out of libsacommon for dos compile...
+also iconv...
+
+sane defaults for windows fav and rem.db
+perhaps expand ~ to %HOMEDIR% or sthg.. but rcfile..
+
+charset conv for vt display
+xterm supposedly has double height chars...
+see if they can be used..
+no.. only has double size and double width (no double height)
+
+check those fread()s. _FORTIFY_SOURCE sez I should check return values
+
+marry xine, xterm and dvbv-nr so I only have one UI...
+can I have xine paint to the xterm window?
+minimal xine client is easy, and may get commands 
+via pipe or bidi-FIFO from nvbv-nr. 
+
+somethings borken with ncurses(menu)
+garbled wheen linking with libncursesw
+ok when using libncurses
+fixed.. was something borked on the linker cmdline..
+
+I have an overflow in 
+the EPG window. the event name had an L'032' 
+it overflowed by one column to the right.
+waddnwstr counts chars. is not the same as columns.
+need some way to trim to spec num cols.
+hope this works..
+nope, seeing it again...

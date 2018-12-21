@@ -1,0 +1,25 @@
+This program is a dvb streaming server
+
+It depends on libdmallocth(5), libpthread(0), libc(6)
+and libsacommon
+libsacommon is included
+
+There is no configuration. Just type make.
+This will create executable and documentation.
+Source code documentation will appear in the doc directory.
+This requires doxygen.
+A program info page will be created in the info dir in info and pdf formats.
+This requires makeinfo and texi2pdf.
+
+make main just compiles the executable.
+The executable is compiled with debugging information enabled.
+make docs will just create the documentation.
+make clean removes intermediary and backup files.
+
+make install installs the executable in /usr/local/bin/dvbv-stream
+and the info page in /usr/local/share/info.
+The last step has to be done as root. Actually, only this step is necessary.
+It will trigger the other stages as needed.
+
+A minimal debian startup script can be found in the ../debian directory.
+

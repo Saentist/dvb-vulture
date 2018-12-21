@@ -1,0 +1,68 @@
+@node Getting started
+@chapter Getting started
+
+First install the hardware.
+Depending on your setup this may involve tuning (try szap or dvbtune)
+a known transponder and aligning the dish using a sat finder and/or compass.
+Also make sure the Satellite Dish and signal cable is properly grounded, 
+as TV cards can get destroyed due to a ground loop.
+
+Then set up the software. 
+At first create the directories for configuration files and data files 
+if they do not exist yet. They default to @samp{/etc/dvbvulture/} and 
+@samp{/var/lib/dvbvulture}.
+Also, a recording directory is necessary. It defaults to 
+@samp{/var/lib/dvbvulture/rec}.
+If the config file does not exist an empty one will be created
+by the server on startup. 
+It defaults to @samp{/etc/dvbvulture/sa.conf}.
+If the defaults are sufficient, editing is not required.
+
+If you want to run multiple servers for multiple dvb-adapters, 
+make sure you use the @option{-cfg} commandline option to specify separate config files.
+Inside those config files the correct adapter indices have to be given.
+Also, every server requires its own set of data files. Their filenames have to be
+specified inside the configfile. Additionally, different broadcast-
+and server ports are required. 
+Most video players expect rtp control connections on uneven ports.
+As we do not support those, it is sane to use even port numbers for rtp 
+broadcasts. (5004,5006...)
+
+Once dvbv-stream is up and running, the switch setup should be done using the client.
+There are several preset configurations that should fit 99% of cases. 
+It is however possible to edit the switch configuration to suit more
+complex setups. DVB-T users should use the DVB-T preset.
+Also, for each switch position a valid initial tuning file has to be chosen.
+In Debian they usually come with the dvb-apps or dtv-scan-tables package and may be found
+in @samp{/usr/share/dvb/}. 
+For dvb-s this determines the initial transponder list for that position.
+More may show up after tuning/scanning.
+For dvb-t the frequency list is just initialized to the given frequencies.
+
+The client does also require a configuration file, of course.
+There is also a @option{-cfg} option to explicitly specify one.
+The port to connect to may have to be specified if it 
+differs from the default.
+
+You also have to set up a route for the multicast address(es) used.
+This is best done by placing a file in @samp{/etc/network/if-up.d}.
+This is a suitable incantation:
+@example
+#! /bin/bash
+
+if [ "$IFACE" = "eth0" ]; then
+	route add -net 224.0.0.0 netmask 240.0.0.0 dev $IFACE
+fi
+@end example
+
+Make sure you set the "$IFACE"= condition above to match your local network interface 
+(or whichever should relay your multicasts).
+
+After the Transponders have been scanned using the client, services may be tuned.
+Use your favorite media player to watch the rtp streams. xine and vlc work. 
+The mrl will look somewhat like this: @uref{rtp://224.0.1.2:5004}, 
+but may use a different address/port.
+
+If the server is not run as root, make sure the user has sufficient permissions to 
+access the dvb device nodes and datafiles.
+If the server is run as root... Well, that's probably rather dangerous.

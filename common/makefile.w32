@@ -1,0 +1,105 @@
+sources = $(wildcard *.c)
+defines = -D_REENTRANT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -DLIBICONV_STATIC -D_POSIX
+include_dirs = -I ../include -I ./win/include
+lib_dirs = -L ./win/lib
+
+file_name = ./win/libsacommon.dll
+# if I use ? here it uses regular gcc despite absence of envvar...?
+CC = i686-w64-mingw32-gcc
+LD = i686-w64-mingw32-ld
+opt=-Os
+
+ext_files=./win/include/ncursesw/ncurses.h ./win/include/iconv.h
+
+#stack prot generated undef references...
+CFLAGS= -g $(opt) -fno-common -fstrict-aliasing -fno-stack-protector -Wall -Wextra -std=gnu99 $(gcov_opt) $(defines) $(include_dirs)
+
+LDFLAGS= -shared $(gcov_opt) $(lib_dirs) -liconv -lpthread -lws2_32
+#-lws2_32 -liconv -lpthreadGC2
+
+#SUBDIRS = $(wildcard */)
+#all sub directories
+
+#.PHONY : subdirs $(SUBDIRS)
+
+.PHONY : all clean distclean main
+
+all : $(file_name)
+
+main : $(file_name)
+
+# subdirs
+
+#subdirs : $(SUBDIRS)
+
+#$(SUBDIRS) :
+#	$(MAKE) -C $@ $(MAKECMDGOALS)
+
+
+#this will not work for parallel builds
+$(file_name) : $(ext_files) $(sources:%.c=win/%.o)
+	$(CC) $(sources:%.c=win/%.o) $(LDFLAGS) -Wl,--out-implib,$(file_name).a -o $(file_name)
+
+
+#for mingw iconv
+iconvurl=http://switch.dl.sourceforge.net/project/gnuwin32/libiconv/1.9.2-1/libiconv-1.9.2-1-lib.zip
+iconvurl2=http://switch.dl.sourceforge.net/project/gnuwin32/libiconv/1.9.2-1/libiconv-1.9.2-1-bin.zip
+./win/include/iconv.h  :
+	wget -nc -P ./win $(iconvurl);\
+unzip ./win/libiconv-1.9.2-1-lib.zip -d ./win
+	wget -nc -P ./win $(iconvurl2);\
+unzip ./win/libiconv-1.9.2-1-bin.zip -d ./win
+
+
+#argh.. it's wide char stuff..
+#for mingw ncurses
+ncurl=http://invisible-island.net/datafiles/release/mingw32.zip
+./win/include/ncursesw/ncurses.h :
+	wget -nc -P ./win $(ncurl);\
+unzip ./win/mingw32.zip -d ./win
+
+#gnulib 
+#glliburl=git://git.sv.gnu.org/gnulib.git naaaah
+#./win/gnulib/README :
+#	mkdir ./win/gnulib; \
+#git clone $(glliburl) ./win/gnulib
+
+win/%.o : %.c
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $< -o $@
+
+
+win/%.d : %.c makefile.w32
+	$(CC) -MM -MG $(include_dirs) $< > $@.$$$$; \
+sed 's,\($*\)\.o[ :]*,win/\1.o $@\: ,g; s,[^\\]$$,& makefile.w32,' < $@.$$$$ > $@; \
+rm -f $@.$$$$
+
+ifneq ($(MAKECMDGOALS), clean)
+ifneq ($(MAKECMDGOALS), distclean)
+
+include $(sources:%.c=win/%.d)
+include rcfile.wtm
+
+endif
+endif
+
+
+distclean : clean
+	rm -f $(file_name)
+	rm -f $(file_name).a
+	rm -rf ./win/include
+	rm -rf ./win/lib
+	rm -rf ./win/bin
+	rm -rf ./win/contrib
+	rm -rf ./win/man
+	rm -rf ./win/share
+	rm -rf ./win/bin
+	rm -rf ./win/manifest
+	rm -f  ./win/libiconv-1.9.2-1-lib.zip
+	rm -f  ./win/libiconv-1.9.2-1-bin.zip
+	rm -f  ./win/mingw32.zip
+
+clean : 
+	rm -f $(sources:%.c=win/%.d)
+	rm -f $(sources:%.c=win/%.o)
+	rm -f ./win/rcfile_tst
+

@@ -1,0 +1,38 @@
+@node Getting started
+@chapter Getting started
+
+@subheading Files and Directories
+If there is no configuration file, the client will generate an 
+empty one and use defaults for all settings. This is unlikely to work, 
+so some editing is required. The configuration file 
+defaults to: @samp{~/.dvbvulture/nr.conf} on Linux.
+In windows it is stored inside the registry: @samp{HKEY_CURRENT_USER/Software/dvbvulture/nr.conf}
+If several servers are present, multiple
+configuration files are needed, with different @samp{host}
+and @samp{port} entries.
+When the clients get started the desired configuration
+may be specified using @option{-cfg}.
+The client may be started by entering @kbd{dvbv-nr} on a terminal. 
+
+@subheading Antenna and Switch
+If the program is started for the first time the (antenna-)switch 
+may not be configured yet. Setup has to be done from the @dfn{super} host
+address configured in the server config file.
+First, use the @samp{Go Active} menu entry, then Use the @samp{Switch Setup}
+to interactively setup the switch. Press @key{p} to choose 
+from a list of common presets. Or alternatively craft your own.
+@emph{Warning: Storing the switch setup will clear most server-side datafiles.}
+
+For every position there @emph{must} be an initial tuning file specified.
+There are no sane defaults for those.
+The initial tuning file(s) must be filename(s) accessible on the 
+@emph{server}. 
+In Debian, tuning files typically come with the dvb-apps or dtv-scan-tables package and
+reside in @samp{/usr/share/dvb/}. Warning: The parser is cheap and will fail 
+on weird linebreaks and other oddities.
+
+After the switches have been set up, the Master List should show the configured positions
+and initial transponders. One may press @key{s} to scan individual transponders. 
+When scanning was succesful, the transponder's service list should show up. 
+
+For ease of use one may want to create favorite lists and populate those with entries. 

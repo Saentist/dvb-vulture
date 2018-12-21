@@ -1,0 +1,7 @@
+The Favorites List will be displayed only if a list has been selected before.
+@xref{Select Fav List}.
+
+It supports mostly the same operations as the master list. @xref{Master List}.
+Those not supported are: scanning and adding a favorite. 
+There is an additional operation to delete an entry using @key{d}. Also, 
+it is possible to move entries up and down using @key{f} and @key{v}. 

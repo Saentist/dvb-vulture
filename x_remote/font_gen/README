@@ -1,0 +1,5 @@
+main.c generates the bitmap fonts from .pgm files, 
+(which are extracted from VT standards document). 
+.pgm files have to be 'P2' format ascii, two-valued (0,1) 
+graymap of correct size..
+

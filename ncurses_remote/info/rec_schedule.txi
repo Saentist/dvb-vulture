@@ -1,0 +1,7 @@
+Allows the user to modify, add or delete recording schedule entries.
+Client has to be @dfn{super} to make modifications here.
+For @dfn{RST_DAY} type recordings to update properly,
+individual weekdays have to be selected. 
+Users in countries with Daylight Savings Time have to modify their 
+recording schedules on each transition as the program uses GMT 
+internally and is not DST aware. @key{s} shows all currently running recordings. 

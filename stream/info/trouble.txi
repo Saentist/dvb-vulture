@@ -1,0 +1,86 @@
+@node Trouble
+@chapter Trouble
+
+Why won't broadcasts work? @*
+There has to be a route. 
+
+How to start multiple servers? @*
+Use separate config and datafiles and specify separate dvb devices and separate IP ports for control and broadcast.
+
+How do I get debug output? @*
+If the server is compiled with dmalloc, it will also be used for logging. 
+Set the necessary environment variables for the logfile to show up. 
+For example: @env{DMALLOC_OPTIONS=debug=0x4f4ed03,inter=100000,log=l_server}
+By default only errors show up in the logfile. Use the -d option when starting the server 
+to enable additional output. Module names may be found in the main.c and debug.c files.
+If compiled with dmalloc disabled, errors and debugging go via syslog() with facility LOG_USER
+and levels LOG_ERR or LOG_DEBUG.
+
+The adapter numbers just changed for no reason. What should I do? @*
+When running with udev and multiple tv cards on the same machine, the device nodes may change 
+unpredictably on a reboot. So adapter0=dvb-s and adapter1=dvb-t may become
+adapter1=dvb-s and adapter0=dvb-t depending on sequence of detection. @*
+Some modules offer the parameter @option{adapter_nr} which allows to 
+explicitly specify the node indices used.
+Another way to solve this, is by blacklisting the offending modules for udev 
+and loading them later in a specified order from @samp{/etc/modules.d} or a similar place. 
+Yet another solution involves writing udev rules to create symlinks. 
+@uref{http://www.mythtv.org/wiki/Device_Filenames_and_udev} provides an 
+introduction to this arcane craft. 
+
+Why does tuning often fail? @*
+increase the tune_wait setting inside the DVB section of your config file.
+@samp{tune_wait=3} seems to work quite ok.
+
+How come there's frequent skips when recording/viewing? @*
+Depending on the cause there are different options.
+
+@itemize @bullet
+@item Selector buffer overflow:
+This is indicated by consecutive logfile lines like the following: @samp{selector: out of buffers}. 
+In this case setting @samp{num_buffers=} in the DVB section of the config file to a value above the default 8192 will help.
+
+@item Device buffer overflow:
+This is indicated by consecutive logfile lines like the following: 
+@samp{readv error: Value too large for defined data type}. 
+Setting @samp{dmx_bufsz_bytes=} in the DVB section of the config file to a value above the default 1540096 will help.
+
+@item High disk latency:
+This may cause selector/device buffer overflows. Avoid slow disks for epg and vt datafiles. 
+Also, it is possible to compile the server without videotext support by removing the definition 
+@samp{WITH_VT} from the servers' makefile. This may reduce disk activity a little. 
+Using usb drives for recording is usually ok as long as it is USB2(high speed) at least. 
+Make sure they do not disconnect at random. 
+
+@item Network problems: 
+Verify that the network connection is alright. Use a wired network. WiFi is prone to 
+errors. As RTP/UDP is a connectionless protocol, packets are not retransmitted on error. 
+If using WiFi, remove cellphones and DECT telephones/basestations. 
+
+@item Bad reception: 
+Use a signal indicator for aligning the dish. Software based indicators have too high latency. 
+Avoid cellphones and DECT telephones/basestations. Too strong signal may cause problems. 
+
+@item Driver/Hardware weirdness: 
+Not much that can be done there... Tinker with the module options. If that does not help get a different piece of Hardware.
+
+@item High system load (by other programs):
+Happens most frequently with I/O intensive processes. Try renice or ionice to increase the servers' priority. 
+If that does not help use realtime scheduling. If that does not help shut down bothersome processes.
+
+@end itemize
+The Last item seems to get more and more common...
+
+Why are all services gone? @*
+This may happen if the server gets KILLed while writing the services list.
+To avoid such a condition, it is advisable to use a startup/shutdown script to
+start/stop the server, so one may assure there's enough time to store the list
+on shutdown/reboot. 
+
+How do I reduce the server's memory footprint? @*
+Compile without Videotext collection... It is broken..
+Before starting the server, reduce the default stack size using @samp{ulimit -s <new_size>}. 
+new_size is the new stack size in KBytes. Values as low as 256 are known to work. The system default is 8192, 
+which is allocated for each running thread(ca 10) and is far too large. @*
+Also set @samp{setvbuf_bytes=0} in the [EPG] and [VT] sections. This will slow down a few things..
+

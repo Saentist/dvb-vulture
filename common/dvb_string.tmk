@@ -1,0 +1,4 @@
+
+dvbstr_tst : dvb_string.c utl.o debug.o ipc.o in_out.o
+	$(CC) -g dvb_string.c utl.o debug.o ipc.o in_out.o -DTEST -o dvbstr_tst $(defines) $(include_dirs)
+

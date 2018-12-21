@@ -1,0 +1,2 @@
+Enters reminder mode. As soon as a reminder becomes current
+tuning is attempted. Reminder mode stays active until a key is pressed.

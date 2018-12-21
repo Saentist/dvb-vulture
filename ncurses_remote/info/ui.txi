@@ -1,0 +1,85 @@
+@node The UI
+@chapter The UI
+
+The user interface is mostly menu driven with the menu occupying the
+top 2/3 of the screen and a message window on the lower 1/3.
+The message window typically shows some informative text and errors.
+To select items use @key{enter}. To exit a menu use @key{Backspace} or
+@key{Esc}.
+The Top Level menu has the following entries:
+
+@menu
+* Master List::            Shows the master service index
+* Fav List::               Display selected local favorites list
+* Select Fav List::        Select a fav list (if available)
+* Add Fav List::           Add another fav list. 
+* Del Fav List::           Delete a fav list.
+* Switch Setup::           Setup antenna.
+* Go Active::              Determines what's possible.
+* Go Inactive::            Inverse of above. 
+* F correct::              Finetune the frontend and signal stats. 
+* Rec Schedule::           Edit the recording schedule.
+* Reminder List::          Edit local reminder list.
+* Reminder Mode::          Enter automatic tuning mode.
+* Server Status::          Connection Information.
+* Exit::                   Exit the program.
+@end menu
+
+@node Master List
+@section Master List
+@include master_list.txi
+
+@node Fav List
+@section Fav List
+@include fav_list.txi
+
+@node Select Fav List
+@section Select Fav List
+@include select_fav_list.txi
+
+@node Add Fav List
+@section Add Fav List
+@include add_fav_list.txi
+
+@node Del Fav List
+@section Del Fav List
+@include del_fav_list.txi
+
+@node Switch Setup
+@section Switch Setup
+@include switch_setup.txi
+
+@node Go Active
+@section Go Active
+@include go_active.txi
+
+@node Go Inactive
+@section Go Inactive
+@include go_inactive.txi
+
+@node F correct
+@section F correct
+@include f_correct.txi
+
+@node Rec Schedule
+@section Rec Schedule
+@include rec_schedule.txi
+
+@node Reminder List
+@section Reminder List
+@include reminder_list.txi
+
+@node Reminder Mode
+@section Reminder Mode
+@include reminder_mode.txi
+
+@node Server Status
+@section Server Status
+Lists tuning parameters, all connections, originating addresses, 
+and if they are active and streaming. Their respective program 
+numbers and whether the scheduler is currently recording.
+
+@node Exit
+@section Exit
+@include exit.txi
+
