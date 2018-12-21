@@ -1,0 +1,20 @@
+This is a library of functions common to 
+dvb streaming server and remote control client 
+
+It depends on libdmallocth(5) and libc(6) 
+
+There is no configuration. Just type make. 
+This will create library and documentation. 
+Source code documentation will appear in the doc directory. 
+This requires doxygen. 
+
+make main just compiles the library. 
+The library is compiled with debugging information enabled. 
+make docs will just create the documentation. 
+make clean removes intermediary and backup files 
+and source docs. 
+
+make install installs the library in /usr/local/lib/libsacommon.so 
+The last step has to be done as root. Actually only this step is necessary. 
+It will trigger the other stages as needed. 
+

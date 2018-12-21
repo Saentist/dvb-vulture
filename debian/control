@@ -1,0 +1,38 @@
+Source: dvbvulture
+Section: video
+Priority: optional
+Maintainer: root <you@cannotreach.me>
+Build-Depends: debhelper (>= 8.0.0), texinfo, libncurses-dev, libdmalloc-dev, install-info, libxext-dev, libxaw7-dev, zlib1g-dev
+Standards-Version: 3.9.3
+Homepage: http://www.members.aon.at/~aklamme4/dvbv
+
+Package: dvbvulture
+Architecture: any
+Description: This Archive contains the DVB Vulture
+  It is a DVB streaming software with features.
+  .
+  It features:
+  * Beautiful NCurses UI
+  * RTP streaming. Multiple services possible.
+  * Recording. both timed and unconstrained. Multiple services possible.
+  * Few library/software dependencies.
+  * The libraries it does depend on are rather mature(=old) and stable.
+  * Automated service listing and selection. Never again dvbscan and crappy channel list text files.
+  * Stream announcement(using SAP/SDP)
+  * EPG schedule collection(+Viewer)
+  * Videotext collection(+Viewer)
+  * DVB-S and DVB-T support(DVB-S2 is untested and may not work)
+  * Complex switch/antenna Setups
+  * Follows pid changes by tracking PMT.
+  * Reference counting software demultiplexer, no copying of packets.
+  * Basic multi-user arbitration.
+  .
+  What it can _not_ do:
+  - Pay TV(Not even with CI and card)
+  - Play streams or files. But vlc or xine work well.
+  - Hbb stuff
+  - ATSC
+  .
+  It is licensed under the GPLv3
+Recommends: dvb-apps, dtv-scan-tables
+Depends: ${misc:Depends}, libncurses5, info-browser, libxext6, libxaw7, zlib1g

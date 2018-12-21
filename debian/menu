@@ -1,0 +1,4 @@
+?package(dvbvulture):needs="text" section="Applications/Viewers"\
+  title="dvbv-nr" command="/usr/bin/dvbv-nr"
+?package(dvbvulture):needs="X11" section="Applications/Viewers"\
+  title="dvbv-xr" command="/usr/bin/dvbv-xr"

@@ -1,0 +1,4 @@
+
+win/rcfile_tst.exe : rcfile.c win/utl.o win/debug.o
+	$(CC) -g rcfile.c win/utl.o win/debug.o -L ./win/lib -lpthread -lws2_32 -DTEST -o win/rcfile_tst.exe $(defines) $(include_dirs)
+

@@ -1,0 +1,5 @@
+# Defaults for dvbvulture initscript
+# sourced by /etc/init.d/dvbvulture
+
+#uncomment the next line to enable the server
+#STARTDVB="true"

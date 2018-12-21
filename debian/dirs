@@ -1,0 +1,8 @@
+usr/bin
+usr/lib
+usr/share/info
+etc/init.d
+etc/default
+var/lib/dvbvulture
+var/lib/dvbvulture/rec
+etc/dvbvulture
